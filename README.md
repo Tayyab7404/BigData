@@ -1,4 +1,4 @@
-# BigData
+# Big Data
 
 ## **The Java Interface**
 
@@ -28,7 +28,7 @@ public class URLCat
 {
  	static
 	{
- 	URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
+		URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());
  	}
 
  	public static void main(String[] args) throws Exception 
