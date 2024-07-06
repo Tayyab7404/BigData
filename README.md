@@ -70,7 +70,9 @@ public static FileSystem get(URI uri, Configuration conf, String user) throws IO
 - The first method returns the default filesystem.
 - The second uses the given URI’s scheme and authority to determine the filesystem to use, falling back to the default filesystem if no scheme is specified in the given URI.
 - The third retrieves the filesystem as the given user.
+
 <br>
+
 - In some cases, you may want to retrieve a local filesystem instance, in which case you can use the convenience method, getLocal():
 ```
 public static LocalFileSystem getLocal(Configuration conf) throws IOException
