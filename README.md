@@ -79,3 +79,34 @@ public static FileSystem get(URI uri, Configuration conf, String user) throws IO
 ```
 public static LocalFileSystem getLocal(Configuration conf) throws IOException
 ```
+
+- With a FileSystem instance in hand, we invoke an open() method to get the input stream for a file:
+```
+public FSDataInputStream open(Path f) throws IOException
+public abstract FSDataInputStream open(Path f, int bufferSize) throws IOException
+```
+- The first method uses a default buffer size of 4 K.
+
+**Displaying files from a Hadoop filesystem on standard output by using the FileSystem directly:**
+```
+public class FileSystemCat
+{
+	public static void main(String[] args) throws Exception
+ 	{
+		String uri = args[0];
+		Configuration conf = new Configuration();
+		FileSystem fs = FileSystem.get(URI.create(uri), conf);
+		InputStream in = null;
+  
+		try
+  		{
+			in = fs.open(new Path(uri));
+			IOUtils.copyBytes(in, System.out, 4096, false);
+		}
+  		finally
+    		{
+			IOUtils.closeStream(in);
+		}
+	}
+}
+```
