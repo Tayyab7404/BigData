@@ -56,6 +56,8 @@ But his face you could not see,
 On account of his Beaver Hat.
 ```
 
+<br>
+
 ### Reading Data Using the FileSystem API:
 - Sometimes it is impossible to set a URLStreamHandlerFactory for your application so you need to use the FileSystem API to open an input stream for a file.
 - A file in a Hadoop filesystem is represented by a Hadoop Path object. You can think of a Path as a Hadoop filesystem URI, such as hdfs://localhost/user/tom/quangle.txt.
