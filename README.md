@@ -73,8 +73,6 @@ public static FileSystem get(URI uri, Configuration conf, String user) throws IO
 - The second uses the given URI’s scheme and authority to determine the filesystem to use, falling back to the default filesystem if no scheme is specified in the given URI.
 - The third retrieves the filesystem as the given user.
 
-<br>
-
 - In some cases, you may want to retrieve a local filesystem instance, in which case you can use the convenience method, getLocal():
 ```
 public static LocalFileSystem getLocal(Configuration conf) throws IOException
@@ -97,7 +95,6 @@ public class FileSystemCat
 		Configuration conf = new Configuration();
 		FileSystem fs = FileSystem.get(URI.create(uri), conf);
 		InputStream in = null;
-  
 		try
   		{
 			in = fs.open(new Path(uri));
@@ -109,4 +106,13 @@ public class FileSystemCat
 		}
 	}
 }
+```
+
+- The program runs as follows:
+```
+% hadoop FileSystemCat hdfs://localhost/user/tom/quangle.txt
+On the top of the Crumpetty Tree
+The Quangle Wangle sat,
+But his face you could not see,
+On account of his Beaver Hat.
 ```
