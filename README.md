@@ -117,6 +117,8 @@ But his face you could not see,
 On account of his Beaver Hat.
 ```
 
+<br>
+
 ### FSDataInputStream:
 - The open() method on FileSystem actually returns a FSDataInputStream rather than a standard java.io class.
 - This class is a specialization of java.io.DataInputStream with support for random access, so you can read from any part of the stream:
