@@ -116,3 +116,74 @@ The Quangle Wangle sat,
 But his face you could not see,
 On account of his Beaver Hat.
 ```
+
+### FSDataInputStream:
+- The open() method on FileSystem actually returns a FSDataInputStream rather than a standard java.io class.
+- This class is a specialization of java.io.DataInputStream with support for random access, so you can read from any part of the stream:
+```
+package org.apache.hadoop.fs;
+public class FSDataInputStream extends DataInputStream implements Seekable, PositionedReadable
+{
+	// implementation elided
+}
+```
+
+- The Seekable interface permits seeking to a position in the file and a query method for the current offset from the start of the file (getPos()):
+```
+public interface Seekable
+{
+	void seek(long pos) throws IOException;
+	long getPos() throws IOException;
+}
+```
+
+- Calling seek() with a position that is greater than the length of the file will result in an IOException.
+- Unlike the skip() method of java.io.InputStream that positions the stream at a point later than the current position, seek() can move to an arbitrary, absolute position in the file.
+
+**Displaying files from a Hadoop filesystem on standard output twice, by using seek:**
+```
+public class FileSystemDoubleCat
+{
+	public static void main(String[] args) throws Exception
+	{
+		String uri = args[0];
+		Configuration conf = new Configuration();
+		FileSystem fs = FileSystem.get(URI.create(uri), conf);
+		FSDataInputStream in = null;
+		try
+		{
+			in = fs.open(new Path(uri));
+			IOUtils.copyBytes(in, System.out, 4096, false);
+			in.seek(0); // go back to the start of the file
+			IOUtils.copyBytes(in, System.out, 4096, false);
+		}
+		finally
+		{
+			IOUtils.closeStream(in);
+		}
+	}
+}
+```
+
+**Here’s the result of running it on a small file:**
+```
+% hadoop FileSystemDoubleCat hdfs://localhost/user/tom/quangle.txt
+On the top of the Crumpetty Tree
+The Quangle Wangle sat,
+But his face you could not see,
+On account of his Beaver Hat.
+On the top of the Crumpetty Tree
+The Quangle Wangle sat,
+But his face you could not see,
+On account of his Beaver Hat.
+```
+
+- FSDataInputStream also implements the PositionedReadable interface for reading parts of a file at a given offset:
+```
+public interface PositionedReadable
+{
+	public int read(long position, byte[] buffer, int offset, int length) throws IOException;
+	public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
+	public void readFully(long position, byte[] buffer) throws IOException;
+}
+```
