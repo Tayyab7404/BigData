@@ -60,9 +60,18 @@ On account of his Beaver Hat.
 - Sometimes it is impossible to set a URLStreamHandlerFactory for your application so you need to use the FileSystem API to open an input stream for a file.
 - A file in a Hadoop filesystem is represented by a Hadoop Path object. You can think of a Path as a Hadoop filesystem URI, such as hdfs://localhost/user/tom/quangle.txt.
 - FileSystem is a general filesystem API, so the first step is to retrieve an instance for the filesystem we want to use (HDFS in this case).
-There are several static factory methods for getting a FileSystem instance:
+- There are several static factory methods for getting a FileSystem instance:
 ```
 public static FileSystem get(Configuration conf) throws IOException
 public static FileSystem get(URI uri, Configuration conf) throws IOException
 public static FileSystem get(URI uri, Configuration conf, String user) throws IOException
+```
+
+- The first method returns the default filesystem.
+- The second uses the given URI’s scheme and authority to determine the filesystem to use, falling back to the default filesystem if no scheme is specified in the given URI.
+- The third retrieves the filesystem as the given user.
+
+- In some cases, you may want to retrieve a local filesystem instance, in which case you can use the convenience method, getLocal():
+```
+public static LocalFileSystem getLocal(Configuration conf) throws IOException
 ```
