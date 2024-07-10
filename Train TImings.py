@@ -1,18 +1,20 @@
-import math
-time = 19.34
-l=[4,9,15,24,35]
-for i in range(len(l)):
-    l[i]=(l[i]/60)*100
-hrs, mins = str(time).split(".")
+time = float(input("Enter the train start time: "))
 
-mins=(int(mins)/60)*100
+hrs, mins = str(time).split(".")
 hrs = int(hrs)
-result = []
-for i in l:
-    minutes= (mins+i)
-    hr= minutes//100
-    hr+=hrs
-    hr%=24
-    minutes = round(((minutes%100)*60)/100,2)/100
-    print(hr+minutes)
+mins = int(mins)
+
+if time >= 0 and hrs in range(24) and mins in range(60):
+    addMinutes = [4, 9, 15, 24, 35]
+    for i in range(len(addMinutes)):
+        addMinutes[i] = (addMinutes[i] / 60) * 100
+        
+    mins = mins / 60 * 100
     
+    for i in addMinutes:
+        minutes = (mins + i)
+        hr = (minutes // 100 + hrs) % 24
+        minutes = round(((minutes % 100) * 60) / 100, 2) / 100
+        print(str(hr + minutes).rjust(5, '0'), end=" ")
+else:
+    print("Invalid Input")
