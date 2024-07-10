@@ -15,6 +15,10 @@ if time >= 0 and hrs in range(24) and mins in range(60):
         minutes = (mins + i)
         hr = (minutes // 100 + hrs) % 24
         minutes = round(((minutes % 100) * 60) / 100, 2) / 100
-        print(str(hr + minutes).rjust(5, '0'), end=" ")
+        res=str(hr+minutes)
+        if hr<10: res='0'+res
+        if len(res)<5: res+='0'
+        print(res)
+        
 else:
     print("Invalid Input")
